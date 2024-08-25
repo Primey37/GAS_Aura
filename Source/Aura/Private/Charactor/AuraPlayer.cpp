@@ -3,6 +3,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/AuraPlayerState.h"
 
 AAuraPlayer::AAuraPlayer()
 {
@@ -22,3 +23,28 @@ AAuraPlayer::AAuraPlayer()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 }
+
+//在控制器PossessPawn后对于OwnerActor和AvatarActor进行初始化，服务器端
+void AAuraPlayer::PossessedBy(AController* NewOwner)
+{
+	Super::PossessedBy(NewOwner);
+	InitAbilityActorInfo();
+}
+//PlayerState在控制器PossessPawn后，客户端
+void AAuraPlayer::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+	InitAbilityActorInfo();
+}
+
+//将GameState和Player联系，通过设置owner和InAvatarActor
+void AAuraPlayer::InitAbilityActorInfo()
+{
+	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
+	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
+	AttributeSet = AuraPlayerState->GetAttribute();
+}
+
+

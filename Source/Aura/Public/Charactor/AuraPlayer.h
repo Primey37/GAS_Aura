@@ -17,10 +17,16 @@ class AURA_API AAuraPlayer : public AAuraCharacterBase
 public:
 	AAuraPlayer();
 	
+	virtual void PossessedBy(AController* NewOwner) override;
+	virtual void OnRep_PlayerState() override;
+	
 protected:
 	UPROPERTY(VisibleAnywhere,Category="Camera")
 	TObjectPtr<UCameraComponent> Camera;
 	
 	UPROPERTY(VisibleAnywhere,Category="Camera")
 	TObjectPtr<USpringArmComponent> SpringArm;
+
+private:
+	void InitAbilityActorInfo();
 };
