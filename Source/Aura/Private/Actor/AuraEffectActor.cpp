@@ -32,10 +32,11 @@ void AAuraEffectActor::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, 
 	//TODO:Not Right Way
 	if(IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(OtherActor))
 	{
-		//默认将AttributeSet加入了ASC（可能）
+		//在指定gamestate的avatar actor的时候将AS和ASC相联系（推测）
 		const UAuraAttributeSet* AttributeSet = Cast<UAuraAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UAuraAttributeSet::StaticClass()));
 		UAuraAttributeSet* MutableAttributeSet = const_cast<UAuraAttributeSet*>(AttributeSet);
 		MutableAttributeSet->SetHealth(MutableAttributeSet->GetHealth()+50.f);
+		MutableAttributeSet->SetMana(MutableAttributeSet->GetMana()+25.f);
 		Destroy();
 	}
 }
