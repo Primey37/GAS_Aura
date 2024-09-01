@@ -87,12 +87,11 @@ protected:
 	//实现多重效果的数组，效果是一起生效，取消也是一起取消的
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Applied Effect")
 	TArray<FDurationEffectType> DurationEffects;
-
-	//决定这个数组的Policy
-	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Applied Effect")
-	EEffectApplicationPolicy DurationEffectsApplicationPolicy = EEffectApplicationPolicy::DoNotApply;
 	
-	//根据这个决定是否取消
+	//根据这个决定是否取消，对于全体的Infinity
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Applied Effect")
 	EEffectRemovalPolicy RemovalPolicy = EEffectRemovalPolicy::DoNotRemove;
+
+	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category = "Applied Effect")
+	float ActorEffectLevel = 1.0f;
 };

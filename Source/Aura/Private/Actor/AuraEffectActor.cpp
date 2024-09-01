@@ -20,13 +20,11 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	check(EffectClass);
 	FGameplayEffectContextHandle EffectContextHandle = AbilitySystemComponent->MakeEffectContext();
 	EffectContextHandle.AddSourceObject(this);
-	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(EffectClass,1.0f,EffectContextHandle);
+	FGameplayEffectSpecHandle SpecHandle = AbilitySystemComponent->MakeOutgoingSpec(EffectClass,ActorEffectLevel,EffectContextHandle);
 	FActiveGameplayEffectHandle ActiveGameplayEffectHandle = AbilitySystemComponent->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
 
 	const EGameplayEffectDurationType EffectDurationPolicy =  SpecHandle.Data.Get()->Def.Get()->DurationPolicy;
-	if(EffectDurationPolicy == EGameplayEffectDurationType::Infinite&&
-		(InfinityApplicationPolicy != EEffectApplicationPolicy::DoNotApply||
-		DurationEffectsApplicationPolicy != EEffectApplicationPolicy::DoNotApply))
+	if(EffectDurationPolicy == EGameplayEffectDurationType::Infinite)
 	{
 		//后面要移除的话就需要保存
 		ActiveEffectHandles.Add(ActiveGameplayEffectHandle,AbilitySystemComponent);
